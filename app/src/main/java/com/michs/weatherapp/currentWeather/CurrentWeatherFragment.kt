@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.michs.weatherapp.App
+import com.michs.weatherapp.databinding.FragmentCurrentWeatherBinding
 
 class CurrentWeatherFragment: Fragment() {
 
@@ -21,9 +22,9 @@ class CurrentWeatherFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+        val binding = FragmentCurrentWeatherBinding.inflate(inflater, container, false)
 
 
-
+        return binding.root
     }
 }

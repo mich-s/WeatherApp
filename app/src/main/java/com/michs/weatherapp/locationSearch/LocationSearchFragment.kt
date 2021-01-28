@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.michs.weatherapp.App
+import com.michs.weatherapp.databinding.FragmentLocationSearchBinding
 
 class LocationSearchFragment: Fragment() {
 
@@ -20,6 +21,9 @@ class LocationSearchFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+        val binding = FragmentLocationSearchBinding.inflate(inflater, container, false)
+
+
+        return binding.root
     }
 }
