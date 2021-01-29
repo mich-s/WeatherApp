@@ -27,16 +27,14 @@ class LocationSearchFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentLocationSearchBinding.inflate(inflater, container, false)
+        val viewModel = ViewModelProvider(this, LocationViewModelFactory(repository)).get(LocationViewModel::class.java)
 
         val etCity = binding.etSearchCity
         val searchBtn = binding.btnSearch
 
-        val viewModel = ViewModelProvider(this, LocationViewModelFactory(repository)).get(LocationViewModel::class.java)
-
         searchBtn.setOnClickListener {
             viewModel.getWeather(etCity.text.toString())
         }
-
         return binding.root
     }
 }
