@@ -2,14 +2,13 @@ package com.michs.weatherapp.locationSearch
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.michs.weatherapp.net.WeatherService
-import java.lang.IllegalArgumentException
+import com.michs.weatherapp.repository.WeatherRepository
 import javax.inject.Inject
 
-class LocationViewModelFactory @Inject constructor(private val service: WeatherService): ViewModelProvider.Factory {
+class LocationViewModelFactory @Inject constructor(private val repository: WeatherRepository): ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(LocationViewModel::class.java))
-            return LocationViewModel(service) as T
+            return LocationViewModel(repository) as T
         throw IllegalArgumentException("Unknown view model class")
     }
 }
