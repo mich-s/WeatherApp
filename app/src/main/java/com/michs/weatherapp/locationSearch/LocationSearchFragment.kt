@@ -6,10 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.michs.weatherapp.App
 import com.michs.weatherapp.databinding.FragmentLocationSearchBinding
+import com.michs.weatherapp.net.WeatherService
+import javax.inject.Inject
 
 class LocationSearchFragment: Fragment() {
+
+    @Inject lateinit var service: WeatherService
 
     override fun onAttach(context: Context) {
         (requireActivity().application as App).appComponent.inject(this)
@@ -23,6 +28,14 @@ class LocationSearchFragment: Fragment() {
     ): View? {
         val binding = FragmentLocationSearchBinding.inflate(inflater, container, false)
 
+        val etCity = binding.etSearchCity
+        val searchBtn = binding.btnSearch
+
+        val viewModel = ViewModelProvider(this, LocationViewModelFactory(service)).get(LocationViewModel::class.java)
+
+        searchBtn.setOnClickListener {
+            viewModel.getWeather(etCity.text.toString())
+        }
 
         return binding.root
     }
