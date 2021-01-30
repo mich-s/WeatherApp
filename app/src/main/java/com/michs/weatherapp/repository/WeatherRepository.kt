@@ -1,18 +1,32 @@
 package com.michs.weatherapp.repository
 
-import com.michs.weatherapp.domain.CurrentWeather
 import com.michs.weatherapp.net.CallResult
+import com.michs.weatherapp.net.CurrentWeatherCache
 import com.michs.weatherapp.net.WeatherService
 import com.michs.weatherapp.net.dto.CurrentWeatherNet
 import retrofit2.Response
-import java.lang.Exception
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class WeatherRepository @Inject constructor(private val service: WeatherService) {
+@Singleton
+class WeatherRepository @Inject constructor(private val service: WeatherService, private val cache: CurrentWeatherCache) {
 
-    var currentWeather: CurrentWeather? = null
+    private var cityId = -1
 
-    suspend fun getCurrentWeather(cityName: String) = getCallResult { service.getCurrentWeather(cityName) }
+    suspend fun getCurrentWeather(cityName: String): CallResult<CurrentWeatherNet> {
+        val cached = cache.get(cityId)
+        if(cached != null) {
+            return cached
+        }
+        val callResult = getCallResult { service.getCurrentWeather(cityName) }
+        if (callResult.data != null) {
+            val id = callResult.data.id.toInt()
+            cache.set(id, callResult)
+            cityId = id
+        }
+
+        return callResult
+    }
 
     private suspend fun getCallResult(call: suspend () -> Response<CurrentWeatherNet>): CallResult<CurrentWeatherNet> {
         try {
