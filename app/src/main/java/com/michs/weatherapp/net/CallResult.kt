@@ -6,11 +6,13 @@ data class CallResult<CurrentWeatherNet>(val data: CurrentWeatherNet?, val statu
 
     enum class ResponseStatus{
         SUCCESS,
-        ERROR
+        ERROR,
+        LOADING
     }
 
     companion object {
         fun success(data: CurrentWeatherNet) = CallResult(data, ResponseStatus.SUCCESS)
         fun error(data: CurrentWeatherNet? = null, message: String?) = CallResult(data, ResponseStatus.ERROR, message)
+        fun loading(data: CurrentWeatherNet? = null) = CallResult(data, ResponseStatus.LOADING)
     }
 }

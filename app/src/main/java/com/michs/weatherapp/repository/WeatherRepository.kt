@@ -1,6 +1,5 @@
 package com.michs.weatherapp.repository
 
-import android.util.Log
 import com.michs.weatherapp.net.CallResult
 import com.michs.weatherapp.net.CurrentWeatherCache
 import com.michs.weatherapp.net.WeatherService
@@ -17,6 +16,9 @@ class WeatherRepository @Inject constructor(private val service: WeatherService,
 
     suspend fun getCurrentWeather(cityName: String? = null,
                                   coords: CoordinatesNet? = null): CallResult<CurrentWeatherNet> {
+        if (cityName.isNullOrEmpty() && coords == null)
+            return CallResult.error(message = "No search params")
+
         var cityId = -1L
         val weatherFromCache = cache.getByValue(cityName, coords)
         if (weatherFromCache?.data != null){

@@ -2,13 +2,17 @@ package com.michs.weatherapp.locationSearch
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.michs.weatherapp.App
 import com.michs.weatherapp.databinding.FragmentLocationSearchBinding
+import com.michs.weatherapp.net.CallResult
+import com.michs.weatherapp.net.dto.CurrentWeatherNet
 import com.michs.weatherapp.repository.WeatherRepository
 import javax.inject.Inject
 
@@ -32,8 +36,24 @@ class LocationSearchFragment: Fragment() {
         val etCity = binding.etSearchCity
         val searchBtn = binding.btnSearch
 
+        viewModel.currentWeather.observe(viewLifecycleOwner, Observer<CallResult<CurrentWeatherNet>> { callResult ->
+            when (callResult.status){
+                CallResult.ResponseStatus.LOADING -> {
+                    Log.d("callResult", "callResult status: LOADING")
+                }
+                CallResult.ResponseStatus.SUCCESS -> {
+                    Log.d("callResult", "callResult status: SUCCESS")
+                    Log.d("callResult", "${callResult.data}")
+                }
+                CallResult.ResponseStatus.ERROR -> {
+                    Log.d("callResult", "callResult status: ERROR")
+                    Log.d("callResult", "${callResult.message}")
+                }
+            }
+        })
+
         searchBtn.setOnClickListener {
-            viewModel.getWeather(etCity.text.toString())
+            viewModel.cityName.setValue(etCity.text.toString())
         }
         return binding.root
     }
