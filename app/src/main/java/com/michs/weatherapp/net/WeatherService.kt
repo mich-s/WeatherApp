@@ -12,6 +12,9 @@ interface WeatherService {
     }
 
     @GET("weather?")
-    suspend fun getCurrentWeather(@Query("q") cityName: String): Response<CurrentWeatherNet>
+    suspend fun getCurrentWeatherByCityName(@Query("q") cityName: String): Response<CurrentWeatherNet>
+    @GET("weather?")
+    suspend fun getCurrentWeatherByCoordinates(@Query("lat") latitude: String, @Query("lon") longitude: String): Response<CurrentWeatherNet>
+
 
 }

@@ -5,7 +5,7 @@ import com.michs.weatherapp.domain.*
 
 data class CurrentWeatherNet(
     val cod: Int,
-    val coordinates: CoordinatesNet,
+    @SerializedName("coord") val coordinates: CoordinatesNet,
     val weather: List<WeatherNet>,
     val base: String?,
     val main: MainNet?,

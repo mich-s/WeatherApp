@@ -12,7 +12,7 @@ class LocationViewModel (private val repository: WeatherRepository): ViewModel()
 
     fun getWeather(cityName: String) {
         viewModelScope.launch {
-            var currentWeather = repository.getCurrentWeather(cityName)
+            var currentWeather = repository.getCurrentWeather(cityName.capitalize())
             Log.d("currentWeather", currentWeather.data.toString())
             Log.d("currentWeather", currentWeather.message.toString())
             Log.d("currentWeather", currentWeather.status.toString())
