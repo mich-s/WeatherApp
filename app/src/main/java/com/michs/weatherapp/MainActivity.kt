@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        cache.remove()
+        cache.clear()
     }
 
 }

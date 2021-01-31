@@ -1,12 +1,9 @@
 package com.michs.weatherapp.repository
 
-import com.michs.weatherapp.domain.Coordinates
-import com.michs.weatherapp.domain.asNetworkModel
-import com.michs.weatherapp.locationSearch.SearchParams
+import com.michs.weatherapp.locationSearch.ISearchParams
 import com.michs.weatherapp.net.CallResult
 import com.michs.weatherapp.net.CurrentWeatherCache
 import com.michs.weatherapp.net.WeatherService
-import com.michs.weatherapp.net.dto.CoordinatesNet
 import com.michs.weatherapp.net.dto.CurrentWeatherNet
 import retrofit2.Response
 import javax.inject.Inject
@@ -17,35 +14,20 @@ class WeatherRepository @Inject constructor(private val service: WeatherService,
 
     private lateinit var callResult: CallResult<CurrentWeatherNet>
 
-    suspend fun getCurrentWeather(searchParams: SearchParams): CallResult<CurrentWeatherNet> {
-        val cityName = searchParams.cityName
-        val coords = searchParams.coordinates
-        if (cityName.isNullOrEmpty() && coords == null)
+    suspend fun getCurrentWeather(searchParams: ISearchParams): CallResult<CurrentWeatherNet> {
+        if (searchParams.areParamsEmpty())
             return CallResult.error(message = "No search params")
 
-        var cityId = -1L
-        val weatherFromCache = cache.getByValue(cityName, coords?.asNetworkModel())
+        val weatherFromCache = cache.getBySearchParams(searchParams)
         if (weatherFromCache?.data != null){
-            cityId = weatherFromCache.data.id
+            return weatherFromCache
         }
-        if(cityId > -1){
-            val cachedCallResult = cache.get(cityId)
-            if(cachedCallResult != null) {
-                return cachedCallResult
-            }
-        }
-
-        when{
-            cityName != null -> callResult = getCallResult { service.getCurrentWeatherByCityName(cityName) }
-            coords != null -> callResult = getCallResult { service.getCurrentWeatherByCoordinates(coords.latitude.toString(), coords.longitude.toString()) }
-        }
-
+        callResult = getCallResult {service.getCurrentWeather(searchParams.createQueryMap())}
         val d = callResult.data
         if (d != null) {
             val id = d.id
             cache.set(id, callResult)
         }
-
         return callResult
     }
 

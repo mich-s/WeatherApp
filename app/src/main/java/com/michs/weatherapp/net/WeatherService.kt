@@ -4,6 +4,7 @@ import com.michs.weatherapp.net.dto.CurrentWeatherNet
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 
 interface WeatherService {
 
@@ -15,6 +16,8 @@ interface WeatherService {
     suspend fun getCurrentWeatherByCityName(@Query("q") cityName: String): Response<CurrentWeatherNet>
     @GET("weather?")
     suspend fun getCurrentWeatherByCoordinates(@Query("lat") latitude: String, @Query("lon") longitude: String): Response<CurrentWeatherNet>
+    @GET("weather?")
+    suspend fun getCurrentWeather(@QueryMap filters: Map<String, String>): Response<CurrentWeatherNet>
 
 
 }
