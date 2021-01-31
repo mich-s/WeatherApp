@@ -1,12 +1,15 @@
-package com.michs.weatherapp.locationSearch
+package com.michs.weatherapp.viewModel
 
 import androidx.lifecycle.*
+import com.michs.weatherapp.locationSearch.SearchParams
 import com.michs.weatherapp.net.CallResult
 import com.michs.weatherapp.net.dto.CurrentWeatherNet
 import com.michs.weatherapp.repository.WeatherRepository
 import kotlinx.coroutines.Dispatchers
+import javax.inject.Singleton
 
-class LocationViewModel (private val repository: WeatherRepository): ViewModel() {
+@Singleton
+class WeatherViewModel (private val repository: WeatherRepository): ViewModel() {
 
     val searchParams = MutableLiveData<SearchParams>()
 

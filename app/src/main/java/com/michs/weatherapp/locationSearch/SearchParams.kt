@@ -9,7 +9,7 @@ class SearchParams (var cityName: String? = null, var coordinates: Coordinates? 
     override fun filterMap(map: Map<Long, CallResult<CurrentWeatherNet>>): Map<Long, CallResult<CurrentWeatherNet>> {
         return map.filterValues {
             if(!cityName.isNullOrBlank())
-                it.data?.name == cityName
+                it.data?.name?.toLowerCase() == cityName?.toLowerCase()
             else
                 it.data?.coordinates == coordinates?.asNetworkModel()
         }

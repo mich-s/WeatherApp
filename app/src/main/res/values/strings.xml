@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+    <string name="search_button">Search</string>
+    <string name="search_by">Search by:</string>
+    <string name="search_city_name">city name</string>
+    <string name="search_longitude">longitude</string>
+    <string name="search_latitude">latitude</string>
+    <string name="coordinates">coordinates</string>
+    <string name="lat_digit_validation">Must contain at least 1 digit</string>
+    <string name="lat_range_validation">Latitude values range between -90 and 90</string>
+    <string name="lon_digit_validation">Must contain at least 1 digit</string>
+    <string name="lon_range_validation">Longitude values range between -180 and 180</string>
+    <string name="pb_load_weather">Loading weather data</string>
+    <string name="pressure">Pressure</string>
+    <string name="humidity">Humidity</string>
+    <string name="clouds">Clouds</string>
+    <string name="wind">Wind</string>
+
 </resources>

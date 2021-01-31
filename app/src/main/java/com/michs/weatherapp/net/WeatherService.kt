@@ -10,14 +10,10 @@ interface WeatherService {
 
     companion object{
         const val ENDPOINT = "https://api.openweathermap.org/data/2.5/"
+        const val UNITS_METRIC = "units=metric"
     }
 
-    @GET("weather?")
-    suspend fun getCurrentWeatherByCityName(@Query("q") cityName: String): Response<CurrentWeatherNet>
-    @GET("weather?")
-    suspend fun getCurrentWeatherByCoordinates(@Query("lat") latitude: String, @Query("lon") longitude: String): Response<CurrentWeatherNet>
-    @GET("weather?")
+    @GET("weather?$UNITS_METRIC")
     suspend fun getCurrentWeather(@QueryMap filters: Map<String, String>): Response<CurrentWeatherNet>
-
 
 }

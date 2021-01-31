@@ -21,7 +21,7 @@ class CurrentWeatherCache @Inject constructor(): Cache<Long, CallResult<CurrentW
         var weatherCache: CallResult<CurrentWeatherNet>? = null
         val filteredMap = iSearchParams.filterMap(map)
         if (filteredMap.isNotEmpty())
-            weatherCache = map.values.elementAt(0)
+            weatherCache = filteredMap.values.elementAt(0)
         return weatherCache
     }
 }

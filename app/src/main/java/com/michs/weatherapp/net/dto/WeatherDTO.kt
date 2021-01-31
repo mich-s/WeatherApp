@@ -76,8 +76,8 @@ fun CurrentWeatherNet.asDomainModel(): CurrentWeather =
 
 fun CoordinatesNet.asDomainModel(): Coordinates =
     Coordinates(
-        longitude = longitude,
-        latitude = latitude
+        latitude = latitude,
+        longitude = longitude
     )
 fun List<WeatherNet>.asDomainModel(): List<Weather> =
     map {

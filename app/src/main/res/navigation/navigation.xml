@@ -4,13 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation"
     app:startDestination="@id/locationSearchFragment">
-
     <fragment
         android:id="@+id/locationSearchFragment"
         android:name="com.michs.weatherapp.locationSearch.LocationSearchFragment"
-        android:label="LocationSearchFragment" />
+        android:label="LocationSearchFragment" >
+        <action
+            android:id="@+id/action_locationSearchFragment_to_currentWeatherFragment"
+            app:destination="@id/currentWeatherFragment"/>
+    </fragment>
     <fragment
         android:id="@+id/currentWeatherFragment"
         android:name="com.michs.weatherapp.currentWeather.CurrentWeatherFragment"
-        android:label="CurrentWeatherFragment" />
+        android:label="CurrentWeatherFragment">
+    </fragment>
 </navigation>

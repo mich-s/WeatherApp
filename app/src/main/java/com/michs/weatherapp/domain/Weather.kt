@@ -19,8 +19,8 @@ data class CurrentWeather(
 )
 
 data class Coordinates(
-    val longitude: Double?,
-    val latitude: Double?
+    val latitude: Double?,
+    val longitude: Double?
 )
 
 data class Weather(

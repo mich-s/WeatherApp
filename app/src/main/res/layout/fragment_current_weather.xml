@@ -1,9 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="data"
+            type="com.michs.weatherapp.domain.CurrentWeather" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/constraint_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        >
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_begin="8dp"
+            android:orientation="vertical"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_end="8dp"
+            android:orientation="vertical"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_end="8dp"
+            android:orientation="horizontal"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_begin="68dp"
+            android:orientation="horizontal"/>
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="City"
+            android:textSize="36sp"
+            app:layout_constraintStart_toStartOf="@id/left"
+            app:layout_constraintEnd_toEndOf="@id/right"
+            app:layout_constraintTop_toTopOf="@id/top"
+            android:text="@{data.name}"/>
+        <TextView
+            android:id="@+id/latitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Latitude"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@id/left"
+            app:layout_constraintEnd_toStartOf="@id/longitude"
+            app:layout_constraintTop_toBottomOf="@id/city"
+            android:text='@{data.coordinates != null &amp;&amp; data.coordinates.latitude != null ? String.format("Latitude: %1$.2f", data.coordinates.latitude) : ""}'/>
+        <TextView
+            android:id="@+id/longitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Longitude"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@id/latitude"
+            app:layout_constraintEnd_toEndOf="@id/right"
+            app:layout_constraintTop_toBottomOf="@id/city"
+            android:text='@{data.coordinates != null &amp;&amp; data.coordinates.longitude != null ? String.format("Longitude: %1$.2f", data.coordinates.longitude) : ""}'/>
+        <TextView
+            android:id="@+id/temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/latitude"
+            app:layout_constraintStart_toStartOf="@id/left"
+            tools:text="25\u00B0C"
+            android:textSize="70sp"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"
+            android:text='@{data.main != null &amp;&amp; data.main.temperature != null ? String.format("%1$.0f\u00B0C", data.main.temperature) : ""}'
+            />
+        <TextView
+            android:id="@+id/feels_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/temperature"
+            app:layout_constraintStart_toStartOf="@id/left"
+            tools:text="Feels like 28\u00B0C"
+            android:textSize="18sp"
+            android:text='@{data.main != null &amp;&amp; data.main.feelsLike != null ? String.format("Feels like %1$.0f\u00B0C", data.main.feelsLike) : ""}'
+            />
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/left"
+            app:layout_constraintTop_toBottomOf="@id/feels_like"
+            tools:text="Description"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:text="@{data.weather[0].description}"
+            />
+        <TextView
+            android:id="@+id/pressure_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/left"
+            app:layout_constraintTop_toBottomOf="@id/description"
+            app:layout_constraintEnd_toStartOf="@id/pressure"
+            android:text="@string/pressure"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"/>
+        <TextView
+            android:id="@+id/pressure"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/pressure_label"
+            app:layout_constraintEnd_toEndOf="@id/right"
+            app:layout_constraintTop_toTopOf="@id/pressure_label"
+            tools:text="1006 hPa"
+            android:textSize="20sp"
+            android:text='@{(data.main != null &amp;&amp; data.main.pressure != null) ? String.format("%1$d hPa", data.main.pressure) : ""}'/>
+        <TextView
+            android:id="@+id/humidity_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/left"
+            app:layout_constraintTop_toBottomOf="@id/pressure_label"
+            app:layout_constraintEnd_toStartOf="@id/humidity"
+            android:text="@string/humidity"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/humidity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/humidity_label"
+            app:layout_constraintEnd_toEndOf="@id/right"
+            app:layout_constraintTop_toTopOf="@id/humidity_label"
+            tools:text="85%"
+            android:textSize="20sp"
+            android:text='@{(data.main != null &amp;&amp; data.main.humidity != null) ? String.format("%1$d%% hPa", data.main.humidity) : ""}'/>
+        <TextView
+            android:id="@+id/clouds_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/left"
+            app:layout_constraintTop_toBottomOf="@id/humidity_label"
+            app:layout_constraintEnd_toStartOf="@id/clouds"
+            android:text="@string/clouds"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/clouds"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/clouds_label"
+            app:layout_constraintEnd_toEndOf="@id/right"
+            app:layout_constraintTop_toTopOf="@id/clouds_label"
+            tools:text="0%"
+            android:textSize="20sp"
+            android:text='@{(data.clouds != null &amp;&amp; data.clouds.all != null) ? String.format("%1$d%% hPa", data.clouds.all) : ""}'/>
+        <TextView
+            android:id="@+id/wind_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/left"
+            app:layout_constraintTop_toBottomOf="@id/clouds_label"
+            app:layout_constraintEnd_toStartOf="@id/clouds"
+            android:text="@string/wind"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/wind"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/wind_label"
+            app:layout_constraintEnd_toEndOf="@id/right"
+            app:layout_constraintTop_toTopOf="@id/wind_label"
+            tools:text="2,1 m/s"
+            android:textSize="20sp"
+            android:text='@{(data.wind != null &amp;&amp; data.wind.speed != null) ? String.format("%1$.1f m/s", data.wind.speed) : ""}'/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
