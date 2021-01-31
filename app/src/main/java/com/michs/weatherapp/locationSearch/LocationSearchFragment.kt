@@ -19,6 +19,7 @@ import javax.inject.Inject
 class LocationSearchFragment: Fragment() {
 
     @Inject lateinit var repository: WeatherRepository
+    private val searchParams = SearchParams()
 
     override fun onAttach(context: Context) {
         (requireActivity().application as App).appComponent.inject(this)
@@ -53,7 +54,8 @@ class LocationSearchFragment: Fragment() {
         })
 
         searchBtn.setOnClickListener {
-            viewModel.cityName.setValue(etCity.text.toString())
+            searchParams.cityName = etCity.text.toString()
+            viewModel.searchParams.setValue(searchParams)
         }
         return binding.root
     }

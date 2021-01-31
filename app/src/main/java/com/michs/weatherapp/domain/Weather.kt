@@ -1,5 +1,7 @@
 package com.michs.weatherapp.domain
 
+import com.michs.weatherapp.net.dto.CoordinatesNet
+
 data class CurrentWeather(
     val cod: Int,
     val coordinates: Coordinates,
@@ -53,3 +55,9 @@ data class Sys(
     val sunrise: Long?,
     val sunset: Long?
 )
+
+fun Coordinates.asNetworkModel(): CoordinatesNet =
+    CoordinatesNet(
+        longitude = longitude,
+        latitude = latitude
+    )

@@ -8,22 +8,19 @@ import kotlinx.coroutines.Dispatchers
 
 class LocationViewModel (private val repository: WeatherRepository): ViewModel() {
 
-    val cityName = MutableLiveData<String>()
-    init {
-        cityName.value = ""
-    }
+    val searchParams = MutableLiveData<SearchParams>()
 
     val currentWeather: LiveData<CallResult<CurrentWeatherNet>>
     get() = _currentWeather
 
-    private val _currentWeather =  cityName.switchMap {
+    private val _currentWeather =  searchParams.switchMap {
         return@switchMap getCurrentWeather(it)
     }
 
-    private fun getCurrentWeather(cityName: String?) =
+    private fun getCurrentWeather(searchParams: SearchParams) =
         liveData(Dispatchers.IO) {
             emit(CallResult.loading())
-            val currentWeather = repository.getCurrentWeather(cityName)
+            val currentWeather = repository.getCurrentWeather(searchParams)
             emit(currentWeather)
         }
 

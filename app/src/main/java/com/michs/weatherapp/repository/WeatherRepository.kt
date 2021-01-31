@@ -1,5 +1,8 @@
 package com.michs.weatherapp.repository
 
+import com.michs.weatherapp.domain.Coordinates
+import com.michs.weatherapp.domain.asNetworkModel
+import com.michs.weatherapp.locationSearch.SearchParams
 import com.michs.weatherapp.net.CallResult
 import com.michs.weatherapp.net.CurrentWeatherCache
 import com.michs.weatherapp.net.WeatherService
@@ -14,13 +17,14 @@ class WeatherRepository @Inject constructor(private val service: WeatherService,
 
     private lateinit var callResult: CallResult<CurrentWeatherNet>
 
-    suspend fun getCurrentWeather(cityName: String? = null,
-                                  coords: CoordinatesNet? = null): CallResult<CurrentWeatherNet> {
+    suspend fun getCurrentWeather(searchParams: SearchParams): CallResult<CurrentWeatherNet> {
+        val cityName = searchParams.cityName
+        val coords = searchParams.coordinates
         if (cityName.isNullOrEmpty() && coords == null)
             return CallResult.error(message = "No search params")
 
         var cityId = -1L
-        val weatherFromCache = cache.getByValue(cityName, coords)
+        val weatherFromCache = cache.getByValue(cityName, coords?.asNetworkModel())
         if (weatherFromCache?.data != null){
             cityId = weatherFromCache.data.id
         }
